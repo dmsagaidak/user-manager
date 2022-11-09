@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-const AddUser = () => {
+const UserForm = () => {
   return (
     <form>
       <h5>Add user</h5>
@@ -48,4 +48,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default UserForm;

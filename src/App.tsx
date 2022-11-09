@@ -1,5 +1,7 @@
-import React from 'react';
-import AddUser from "./components/AddUser/AddUser";
+import React, {useState} from 'react';
+import UserForm from "./components/AddUser/UserForm";
+import Users from "./components/Users/Users";
+import type {User} from "./types";
 
 
 function App() {
@@ -7,10 +9,10 @@ function App() {
     <>
       <div className="container-fluid row mt-3">
         <div className="col">
-          <AddUser/>
+          <UserForm/>
         </div>
         <div className="col">
-          Users card
+          {/*<Users users={users}/>*/}
         </div>
       </div>
     </>
