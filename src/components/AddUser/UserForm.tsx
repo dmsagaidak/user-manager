@@ -1,16 +1,47 @@
 import React, {useState} from 'react';
+import type {User} from '../../types';
+import type {UserMutation} from "../../types";
 
-const UserForm = () => {
+interface Props {
+  onSubmit: (user: User) => void;
+}
+
+const UserForm: React.FC<Props> = ({onSubmit}) => {
+  const [user, setUser] = useState<UserMutation>({
+    name: '',
+    email: '',
+    isActive: false,
+    role: '',
+  });
+
+  const onUserChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
+    const {name, value} = e.target;
+
+    setUser(prev =>({...prev, [name]: value}));
+  };
+
+  const onFormSubmit = (e: React.FormEvent) =>{
+    e.preventDefault();
+    console.log(user);
+    onSubmit({
+      id: Math.random().toString(),
+      ...user,
+    })
+  }
+
   return (
-    <form>
+    <form onSubmit={onFormSubmit}>
       <h5>Add user</h5>
       <div className="form-group mt-3">
         <label htmlFor="name">Name</label>
         <input
         id="name"
+        required
         type="text"
         name="name"
         className="form-control mt-1"
+        value={user.name}
+        onChange={onUserChange}
         />
       </div>
       <div className="form-group mt-3">
@@ -20,6 +51,8 @@ const UserForm = () => {
           type="email"
           name="email"
           className="form-control mt-1"
+          value={user.email}
+          onChange={onUserChange}
         />
       </div>
       <div className="form-group mt-3">
@@ -27,8 +60,12 @@ const UserForm = () => {
         <input
         id="active"
         type="checkbox"
-        name="active"
+        name="isActive"
         className="form-check-input ms-3"
+        checked={user.isActive}
+        onChange={(e) =>{
+          setUser(prev =>({...prev, isActive: e.target.checked}))
+        }}
         />
       </div>
       <div className="form-group mt-3">
@@ -37,10 +74,13 @@ const UserForm = () => {
         id="role"
         name="role"
         className="form-select mt-1"
+        value={user.role}
+        onChange={onUserChange}
         >
-          <option value="user">User</option>
-          <option value="editor">Editor</option>
-          <option value="admin">Admin</option>
+          <option disabled value=''>Select a role</option>
+          <option value="User">User</option>
+          <option value="Editor">Editor</option>
+          <option value="Admin">Admin</option>
         </select>
       </div>
       <button type="submit" className="btn btn-success mt-5">Add user</button>
